@@ -1,0 +1,200 @@
+@charset "utf-8";
+
+/* Feuille de styles CSS pour la page d'accueil du site Web (index.jsp) ainsi que pour les pages d'erreur */
+
+/* Général */
+/* ======= */
+body  {
+	background-color:white;
+	color:#F7EB85;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+}
+img  {
+	border:0;
+}
+p  {
+	margin:0;
+	padding-bottom:0.5em;
+}
+/* Titres */
+h1, h2, h3 {
+	font-family:"Times New Roman", Times, serif;
+	font-weight:bold;
+	color:#FFD600;
+	margin:0 0 0.2em 0;
+	padding:0.2em 0 0 0;
+}
+h1 {
+	font-size:30px;
+}
+h2  {
+	font-size:22px;
+	text-align:center;
+	border-bottom:2px groove #33CCFF;
+	padding-bottom:5px;
+}
+h3  {
+	font-size:20px;
+	text-align:left;
+	font-style:italic;
+	width:150px;
+	border-bottom:2px solid #444;
+	padding:5px;
+	margin-top:12px;
+}
+/* Listes */
+ul, ol  {
+	list-style-position:inside;
+	padding:0;
+	margin:1em 0 1em 2em;
+}
+ul  {
+	list-style-type:disc;
+}
+ol  {
+	list-style-type:decimal;
+}
+li  {
+	margin:0;
+	padding:0;
+}
+/* Liens hypertextes */
+a  {
+	font-family: Arial, Helvetica, sans-serif;
+	text-decoration:none;
+	font-size:14px;
+	font-style:italic;
+	color:#FFCB54;
+}
+a:hover  {
+	color:#FFFF00;
+	text-decoration:underline;
+}
+/* On masque les éléments qui ont un équivalent sous forme d'image */
+.equivalent-image {
+	display:none;
+}
+#msg-conf-deconn {
+	text-align:center;
+	font-weight:bold;
+	color:#088919;
+	background-color:#DDD;
+	padding:0.5em 0;
+	margin: 1em 0;
+}
+#msg-err-http-et-exception {
+	text-align:center;
+	font-weight:bold;
+	color:#D00;
+	background-color:#DDD;
+	padding:0.5em 0;
+	margin: 1em 0;
+}
+
+/* Contient tous les éléments de la page */
+/* ===================================== */
+#page  {
+	position:relative;
+	width:1000px;
+	margin:6px auto 6px auto;
+	background-color:#3B5997;
+	border:3px solid #E56439;
+}
+
+/* En-tête */
+/* ======= */
+#page > header  {
+	border-bottom:3px solid #E56439;
+}
+#page > header #logo-twitface  {
+	display:block;
+}
+
+/* Contenu principal */
+/* ================= */
+#contenu  {
+	padding:12px 45px 8px 45px;
+	overflow:hidden;
+}
+/* Sections contenant les formulaires */
+#connexion, #rechercher-amis, #inscription {
+	width:430px;
+	border:2px groove #33CCFF;
+	background-color:#354F84;
+}
+#connexion {
+	height:140px;
+}
+#rechercher-amis {
+	height:90px;
+	margin-top:25px;
+}
+#inscription {
+	float:right;
+	height:260px;
+}
+/* Tous les formulaire */
+#form-connexion, #form-rechercher-amis, #form-inscription {
+	padding:10px;
+	position:relative;
+}
+input[type="text"] {
+	height:18px;
+	border:2px solid silver;
+}
+
+/* Formulaire de connexion */
+#form-connexion label {
+	position:absolute;
+	left:10px;
+}
+#form-connexion input[type="text"], #form-connexion input[type="password"] {
+	width:200px;
+	position:relative;
+	top:-4px;
+}
+#form-connexion #nom-util, #form-connexion #mot-passe {
+	margin-left:120px;
+}
+#form-connexion #img-soumettre-connexion {
+	position: absolute;
+	right:15px;
+	top:6px;
+}
+#form-connexion #msg-err-conn {
+	background-color:#ccc;
+	color:red;
+	font-size:12px;
+	font-weight:bold;
+	padding:3px;
+	text-align:center;
+	border:2px solid #888;
+	margin-top:2px;
+}
+
+/* Formulaire pour la recherche d'amis */
+#form-rechercher-amis p {
+	text-align:center;
+}
+#form-rechercher-amis #rech-nom-ami {
+	width:300px;
+}
+#form-rechercher-amis #img-soumettre-rech-amis {
+	vertical-align: bottom;
+}
+
+/* Formulaire d'inscription */
+#form-inscription {
+	text-align:center;
+}
+
+/* Pied de page */
+/* ============ */
+#page > footer  {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-style:italic;
+	color:#ccc;
+	padding:5px;
+}
