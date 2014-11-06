@@ -1,0 +1,88 @@
+@charset "utf-8";
+
+/* Feuille de styles CSS pour les éléments de base des pages Web */
+
+body  {
+	background-color:white;
+	color:black;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+}
+img  {
+	border:0;
+}
+p  {
+	margin:0;
+	padding-bottom:0.5em;
+}
+strong  {
+	font-weight:bold;
+}
+
+/* Titres */
+/* ====== */
+h1, h2, h3, h4, h5, h6  {
+	font-family:"Times New Roman", Times, serif;
+	font-weight:bold;
+	color:#E56439;
+	margin:0 0 0.5em 0;
+	padding:0.2em 0 0 0;
+}
+h1 {
+	font-size:30px;
+}
+h2  {
+	font-size:22px;
+	text-align:center;
+	border-bottom:2px groove #33CCFF;
+	padding-bottom:5px;
+	margin-left:150px;
+	margin-right:150px;
+}
+h3  {
+	font-size:20px;
+	text-align:left;
+	font-style:italic;
+	border-bottom:2px groove #444;
+	padding:5px;
+	margin-top:12px;
+	margin-bottom:12px;
+	margin-right: 50%;
+}
+
+/* Listes */
+/* ====== */
+ul, ol  {
+	list-style-position:inside;
+	padding:0;
+	margin:1em 0 1em 2em;
+}
+ul  {
+	list-style-type:disc;
+}
+ol  {
+	list-style-type:decimal;
+}
+li  {
+	margin:0;
+	padding:0;
+}
+
+/* Liens hypertextes */
+/* ================= */
+a  {
+	font-family: Arial, Helvetica, sans-serif;
+	text-decoration:none;
+	font-size:14px;
+	font-style:italic;
+	color:#3B5997;
+}
+a:hover  {
+	color:#2C426D;
+	text-decoration:underline;
+}
+
+/* On masque les éléments qui ont un équivalent sous forme d'image */
+.equivalent-image {
+	display:none;
+}

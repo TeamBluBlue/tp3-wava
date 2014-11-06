@@ -1,0 +1,107 @@
+@charset "utf-8";
+
+/* Feuille de styles CSS pour la zone de contenu des pages Web */
+
+/* Liste de membres (pour mes amis, mes demandes d'amitié, suggestions d'amis) */
+.lst-membres {
+	list-style-type:none;
+	overflow:hidden;
+	margin:0;
+}
+.lst-membres li {
+	display:block;
+	float:left;
+	width:140px;
+/*	height:180px; */
+	margin:5px;
+}
+.lst-membres li .div-img {
+	height:140px;
+	overflow:hidden;
+	text-align:center;
+}
+.lst-membres li p {
+	font-size:12px;
+	font-style:italic;
+	text-align:center;
+	margin:0;
+	padding:0;
+}
+.lst-membres li p.nom-ami-sugg {
+	font-weight:bold;
+}
+.lst-membres a {
+	font-size:12px;
+}
+#lien-sugg-autres-amis {
+	text-align:center;
+	margin-top:12px;
+}
+#lien-sugg-autres-amis a {
+	font-size:16px;
+}
+
+/* Profil - babillard */
+#lst-pub-babillard {
+	list-style-type:none;
+	margin:0;
+	padding:0;
+	border:1px solid #ccc;
+}
+#lst-pub-babillard li {
+	border:1px solid #ccc;
+	padding:5px;
+	overflow:hidden;
+	position: relative;
+}
+#lst-pub-babillard .photo-membre {
+	width:70px;
+	float:left;
+	margin-right:20px;
+}
+#lst-pub-babillard .lien-supp {
+	display: block;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+
+/* Formulaire de recherche d'amis */
+#form-rechercher-amis {
+	font-size:12px;
+	margin-bottom:1em;
+}
+#form-rechercher-amis input[type="text"] {
+	width:100px;
+	margin-right:12px;
+	font-size:12px;
+}
+#form-rechercher-amis input[type="checkbox"] {
+	margin-right:12px;
+	font-size:12px;
+}
+
+/* Autres */
+#img-en-construction {
+	display:block;
+	margin:24px auto 24px auto;
+}
+#img-soumettre-rech-amis {
+	vertical-align:bottom;
+}
+#msg-conf-accept-dem-ami {
+	text-align:center;
+	font-weight:bold;
+	color:#088919;
+	background-color:#DDD;
+	padding:0.5em 0;
+	margin: 1em 0;	
+}
+#msg-err-accept-dem-ami {
+	text-align:center;
+	font-weight:bold;
+	color:#D00;
+	background-color:#DDD;
+	padding:0.5em 0;
+	margin: 1em 0;	
+}
