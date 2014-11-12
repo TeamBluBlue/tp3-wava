@@ -6,7 +6,7 @@
 	<c:if test="${sessionScope['modeConn'] == 'MEMBRE'}">
 		<li><a href="${pageContext.request.contextPath}/membre">Accueil - Nouvelles</a></li>
 		<li><a href="${pageContext.request.contextPath}/membre/profil">Profil - Babillard</a></li>
-		<li><a href="${pageContext.request.contextPath}/membre/mes-amis">Mes amis et demandes d'amitié</a></li>
+		<li><a href="${pageContext.request.contextPath}/membre/mes-amis">Amis et demandes d'amitié</a></li>
 		<li><a href="${pageContext.request.contextPath}/membre/sugg-amis">Suggérer des amis</a></li>
 	</c:if>
 	<c:if test="${empty sessionScope['modeConn'] || sessionScope['modeConn'] == 'AUCUN'}">
