@@ -5,12 +5,73 @@
 
 <h2>Vos demandes d'amitié</h2>
 
-<img src="${pageContext.request.contextPath}/images/en-construction.png" id="img-en-construction" alt="Section en construction" />
+<sql:query var="resDemandesAmitie" dataSource="jdbc/twitface">
+	SELECT MemNo, MemNom, MemSexe, DemAmiDate
+	FROM membres
+	INNER JOIN demandes_amis ON membres.MemNo = demandes_amis.MemNoDemandeur
+	WHERE MemNoInvite=?
+	ORDER BY MemNom
+	<sql:param value="${sessionScope['noUtil']}" />
+</sql:query>
 
-<%-- <p>Aucun demande d'amitié</p> --%>
+<c:choose>
+	<c:when test="${empty resDemandesAmitie.rows}">
+		<p>Aucune demande d'amitié</p>
+	</c:when>
+	
+	<c:otherwise>
+		<ul id="lst-Demandes" class="lst-membres">
+			<c:forEach var="da" items="${resDemandesAmitie.rows}">
+				<li>
+					<fmt:formatNumber var="noFormate" value="${da.MemNo}" pattern="000" />
+					<div class="div-img">
+						<img src="${pageContext.request.contextPath}/images/photos/membre-${noFormate}.jpg" class="photo-membre" alt="Photo de ${da.MemNom}" />
+					</div>
+					<p class="nom-ami">${da.MemNom}</p>
+					<p>
+						Demande: ${da.DemAmiDate }
+					</p>
+					<p>
+						<a href="${pageContext.request.contextPath}/membre/supp-ami?no-ami=${da.MemNo}">Ajouter comme ami<c:choose><c:when test="${da.MemSexe == 'F'}">e</c:when></c:choose></a>
+					</p>
+				</li>
+			</c:forEach>
+		</ul>
+	</c:otherwise>
+</c:choose>
 
 <h2>Vos amis</h2>
-
-<img src="${pageContext.request.contextPath}/images/en-construction.png" id="img-en-construction" alt="Section en construction" />
-
-<%-- <p>Aucun ami</p> --%>
+<sql:query var="resAmis" dataSource="jdbc/twitface">
+	SELECT MemNo, MemNom, MemSexe
+	FROM membres
+	WHERE MemNo IN
+	(
+		SELECT MemNo1 FROM amis WHERE MemNo2=? UNION
+		SELECT MemNo2 FROM amis WHERE MemNo1=?
+	)
+	ORDER BY MemNom ASC
+	<sql:param value="${sessionScope['noUtil']}" />
+	<sql:param value="${sessionScope['noUtil']}" />
+</sql:query>
+<c:choose>
+	<c:when test="${empty resAmis.rows}">
+		<p>Aucun ami</p>
+	</c:when>
+	
+	<c:otherwise>
+		<ul id="lst-Amis" class="lst-membres">
+			<c:forEach var="ami" items="${resAmis.rows}">
+				<li>
+					<fmt:formatNumber var="noFormate" value="${ami.MemNo}" pattern="000" />
+					<div class="div-img">
+						<img src="${pageContext.request.contextPath}/images/photos/membre-${noFormate}.jpg" class="photo-membre" alt="Photo de ${ami.MemNom}" />
+					</div>
+					<p class="nom-ami">${ami.MemNom}</p>
+					<p>
+						<a href="${pageContext.request.contextPath}/membre/supp-ami?no-ami=${ami.MemNo}">Supprimer l'ami<c:choose><c:when test="${ami.MemSexe == 'F'}">e</c:when></c:choose></a>
+					</p>
+				</li>
+			</c:forEach>
+		</ul>
+	</c:otherwise>
+</c:choose>

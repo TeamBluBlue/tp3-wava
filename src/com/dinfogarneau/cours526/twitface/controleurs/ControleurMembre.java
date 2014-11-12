@@ -118,6 +118,14 @@ public class ControleurMembre extends HttpServlet {
 				vueContenu = "/WEB-INF/vues/membre/profil.jsp";
 				vueSousTitre = "Mon profil et mon babillard";
 				
+			// Voir les amis
+			// =================
+			} else if (uri.equals("/membre/mes-amis")) {
+				// Paramètres pour la vue créée à partir du gabarit.
+				vue = "/WEB-INF/vues/gabarit-vues.jsp";
+				vueContenu = "/WEB-INF/vues/membre/mes-amis.jsp";
+				vueSousTitre = "Mes amis et demandes d'amitié";
+				
 			// Suggérer des amis
 			// =================
 			} else if (uri.equals("/membre/sugg-amis")) {
