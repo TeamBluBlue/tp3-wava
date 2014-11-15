@@ -124,7 +124,7 @@ public class ControleurMembre extends HttpServlet {
 				// Paramètres pour la vue créée à partir du gabarit.
 				vue = "/WEB-INF/vues/gabarit-vues.jsp";
 				vueContenu = "/WEB-INF/vues/membre/mes-amis.jsp";
-				vueSousTitre = "Mes amis et demandes d'amitié";
+				vueSousTitre = "Amis et demandes d'amitié";
 				
 			// Suggérer des amis
 			// =================
