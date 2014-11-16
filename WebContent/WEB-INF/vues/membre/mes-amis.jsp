@@ -4,7 +4,20 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <h2>Vos demandes d'amitié</h2>
-
+<c:choose>
+	<c:when test="${requestScope.modAcceptDemAmi != null}">
+		<c:choose>
+			<c:when test="${requestScope.modAcceptDemAmi.demandeAcceptee}">
+				<p id="msg-conf-accept-dem-ami">
+			</c:when>
+			<c:otherwise>
+				<p id="msg-err-accept-dem-ami">
+			</c:otherwise>
+		</c:choose>
+			${requestScope.modAcceptDemAmi.message}
+		</p>
+	</c:when>
+</c:choose>
 <sql:query var="resDemandesAmitie" dataSource="jdbc/twitface">
 	SELECT MemNo, MemNom, MemSexe, DemAmiDate
 	FROM membres
@@ -32,7 +45,7 @@
 						Demande: ${da.DemAmiDate }
 					</p>
 					<p>
-						<a href="${pageContext.request.contextPath}/membre/supp-ami?no-ami=${da.MemNo}">Ajouter comme ami<c:choose><c:when test="${da.MemSexe == 'F'}">e</c:when></c:choose></a>
+						<a href="${pageContext.request.contextPath}/membre/accept-dem-ami?no-ami=${da.MemNo}">Ajouter comme ami<c:choose><c:when test="${da.MemSexe == 'F'}">e</c:when></c:choose></a>
 					</p>
 				</li>
 			</c:forEach>

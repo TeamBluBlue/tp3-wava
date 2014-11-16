@@ -43,6 +43,16 @@ public class ModeleGestionAmis {
 	 */
 	private int nbAmisSugg;
 	
+	/**
+	 * Le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
+	 */
+	private boolean demandeAcceptee;
+
+	/**
+	 * Le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
+	 */
+	private String message;
+
 	// Constructeur
 	// ============
 	/**
@@ -108,6 +118,26 @@ public class ModeleGestionAmis {
 	public void setNbAmisSugg(int nbAmisSugg) {
 		this.nbAmisSugg = nbAmisSugg;
 	}
+
+	// Pour les demandes d'amitié
+	// ---------------------------
+	
+
+	/**
+	 * Retourne le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
+	 * @return Le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
+	 */
+	public String getMessage() {
+		return this.message;
+	}	
+
+	/**
+	 * Retourne le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
+	 * @return Le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
+	 */
+	public boolean isDemandeAcceptee() {
+		return this.demandeAcceptee;
+	}	
 
 	
 	// Méthodes
@@ -261,5 +291,73 @@ public class ModeleGestionAmis {
 		utilBd.fermerConnexion();
 		
 	}  // Fin de "suggererAmis"
+	
+	/**
+	 * Permet d'accepter une demande d'amitié.
+	 * @param noUtilDemChaine Le numéro de l'utilisateur qui a fait la demande d'amitié
+	 * @param noUtilRep Le numéro de l'utilisateur connecté.
+	 * @throws NamingException S'il est impossible de trouver la source de données.
+	 * @throws SQLException S'il y a une erreur SQL quelconque.
+	 */
+	public void accepterDemande(String noUtilDemChaine, int noUtilRep) throws NamingException, SQLException {
+
+		// Traitement du paramètre donnant le numéro de l'utilisateur qui a fait la demande
+		int noUtilDem;
+		// Est-ce que le paramètre est présent ?
+		if (noUtilDemChaine != null) {
+			// Est-ce que c'est un entier ?
+			try {
+				noUtilDem = Integer.parseInt(noUtilDemChaine);
+			} catch (NumberFormatException nfe) {
+				this.demandeAcceptee = false;
+				this.message = "Le numéro de l'utilisateur demandant n'est pas un numéro.";
+				return;
+			}
+		}
+		else
+		{
+			this.demandeAcceptee = false;
+			this.message = "Le numéro de l'utilisateur demandant ne doit pas être nul.";
+			return;
+		}
+		
+		// Source de données (JNDI).
+		String nomDataSource = "jdbc/twitface";
+
+		// Création de l'objet pour l'accès à la BD.
+		ReqPrepBdUtil utilBd = new ReqPrepBdUtil(nomDataSource);
+
+		// Obtention de la connexion à la BD.
+		utilBd.ouvrirConnexion();
+
+		// Requête SQL permettant de suggérer des amis en fonction du nombre d'amis en commun (Ayoye !!!).
+		String reqSQLSupprDem = "DELETE FROM demandes_amis WHERE MemNoDemandeur=? AND MemNoInvite=?";	
+		// Préparation de la requête SQL.
+		utilBd.preparerRequete(reqSQLSupprDem, false);
+		
+		int nbRangs = utilBd.executerRequeteMaj(noUtilDem, noUtilRep);
+		// Exécution de la requête tout en lui passant les paramètres pour l'exécution.
+		this.demandeAcceptee = nbRangs > 0;
+				
+		if (this.demandeAcceptee) {
+			String reqSQLRendreAmis = "INSERT INTO amis (MemNo1, MemNo2, DateAmitie) VALUES (?, ?, NOW())";
+			
+			utilBd.preparerRequete(reqSQLRendreAmis, false);
+			
+			// Exécution de la requête tout en lui passant les paramètres pour l'exécution.
+			this.demandeAcceptee = utilBd.executerRequeteMaj(noUtilDem, noUtilRep) == 1;
+			
+			if (this.demandeAcceptee) {
+				this.message = "Demande acceptée! Vous avez un nouvel ami :-)";
+			} else {
+				this.message = "Erreur lors de la création de l'amitié :-(";
+			}
+		} else {
+			this.message = "La demande d'amitié n'existe pas! :-o";			
+		}
+		
+		// Fermeture de la connexion à la BD.
+		utilBd.fermerConnexion();
+	}
 
 }

@@ -173,6 +173,27 @@ public class ControleurMembre extends HttpServlet {
 				vueContenu = "/WEB-INF/vues/en-construction.jsp";
 				vueSousTitre = "Demande d'amitié";
 				
+			// Accepter une demande d'amitié
+			// =================
+			} else if (uri.equals("/membre/accept-dem-ami")) {
+//				// Paramètres pour la vue créée à partir du gabarit.
+				vue = "/WEB-INF/vues/gabarit-vues.jsp";
+				vueContenu = "/WEB-INF/vues/membre/mes-amis.jsp";
+				vueSousTitre = "Amis et demandes d'amitié";
+				
+				ModeleGestionAmis mga = new ModeleGestionAmis();
+
+				try {
+					mga.accepterDemande(
+							request.getParameter("no-ami"),
+							(int) request.getSession().getAttribute("noUtil")
+							);
+				} catch (NamingException | SQLException e) {
+					throw new ServletException(e);
+				}
+				
+				request.setAttribute("modAcceptDemAmi", mga);
+				
 			// Ressource non disponible
 			// ========================
 			} else {
