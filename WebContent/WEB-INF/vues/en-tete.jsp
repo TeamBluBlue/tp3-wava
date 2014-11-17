@@ -11,7 +11,7 @@
 
 	<div id="form-connexion">
 		<!-- Formulaire de connexion -->
-		<form method="post" action="/connexion">
+		<form method="post" action="${pageContext.request.contextPath}/connexion">
 			<p>
 				<label for="nom-util">Nom d'utilisateur : </label>
 				<input type="text" name="nom-util" id="nom-util" />
