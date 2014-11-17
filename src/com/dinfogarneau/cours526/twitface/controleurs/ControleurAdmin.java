@@ -11,6 +11,7 @@ import com.dinfogarneau.cours526.twitface.classes.ConnexionMode;
 
 /**
  * Contrôleur pour les ressources des administrateurs.
+ * @author Stéphane Lapointe
  * @author Éric Bonin
  * @author Charles-André Beaudry
  */
@@ -98,10 +99,12 @@ public class ControleurAdmin extends HttpServlet {
 				vueContenu = "/WEB-INF/vues/admin/accueil-admin.jsp";
 				vueSousTitre = "Gestion des publications";
 
-			// Accueil - Membres
+			// Suppression d'une publication
 			// =================	
 			} else if (uri.equals("/admin/supp-pub")) {
 				// Paramètres pour la vue créée à partir du gabarit.
+				
+				// *** En construction ***
 				vue = "/WEB-INF/vues/gabarit-vues.jsp";
 				vueContenu = "/WEB-INF/vues/en-construction.jsp";
 				vueSousTitre = "En construction";

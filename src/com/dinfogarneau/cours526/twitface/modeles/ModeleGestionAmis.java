@@ -11,7 +11,8 @@ import com.dinfogarneau.cours526.util.ReqPrepBdUtil;
 /**
  * Modèle permettant de gérer les amis d'un membre (un Java Bean).
  * @author Stéphane Lapointe
- * @author VOS NOMS COMPLETS ICI
+ * @author Éric Bonin
+ * @author Charles-André Beaudry
  */
 public class ModeleGestionAmis {
 	
@@ -119,17 +120,25 @@ public class ModeleGestionAmis {
 		this.nbAmisSugg = nbAmisSugg;
 	}
 
+	
 	// Pour les demandes d'amitié
 	// ---------------------------
 	
-
 	/**
-	 * Retourne le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
-	 * @return Le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
+	 * Retourne le message relié à l'état de l'acceptation de la demande d'amitié.
+	 * @return le message relié à l'état de l'acceptation de la demande d'amitié.
 	 */
 	public String getMessage() {
 		return this.message;
-	}	
+	}
+
+	/**
+	 * Modifie le message relié à l'état de l'acceptation de la demande d'amitié.
+	 * @param message le message relié à l'état de l'acceptation de la demande d'amitié
+	 */
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
 	/**
 	 * Retourne le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
@@ -137,8 +146,15 @@ public class ModeleGestionAmis {
 	 */
 	public boolean isDemandeAcceptee() {
 		return this.demandeAcceptee;
-	}	
-
+	}
+	
+	/**
+	 * Modifie le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
+	 * @param demandeAcceptee Le nouveau nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
+	 */
+	public void setDemandeAcceptee(boolean demandeAcceptee) {
+		this.demandeAcceptee = demandeAcceptee;
+	}
 	
 	// Méthodes
 	// ========

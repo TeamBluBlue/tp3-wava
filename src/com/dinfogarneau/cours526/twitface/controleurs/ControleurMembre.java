@@ -14,6 +14,7 @@ import com.dinfogarneau.cours526.twitface.modeles.ModeleGestionAmis;
 
 /**
  * Contrôleur pour les ressources des membres.
+ * @author Stéphane Lapointe
  * @author Éric Bonin
  * @author Charles-André Beaudry
  */
@@ -180,9 +181,12 @@ public class ControleurMembre extends HttpServlet {
 				vue = "/WEB-INF/vues/gabarit-vues.jsp";
 				vueContenu = "/WEB-INF/vues/membre/mes-amis.jsp";
 				vueSousTitre = "Amis et demandes d'amitié";
+
 				
+				// Création du modèle pour suggérer des amis.
 				ModeleGestionAmis mga = new ModeleGestionAmis();
 
+				// Appel de la méthode du modèle qui accepte une demande.
 				try {
 					mga.accepterDemande(
 							request.getParameter("no-ami"),
@@ -192,6 +196,7 @@ public class ControleurMembre extends HttpServlet {
 					throw new ServletException(e);
 				}
 				
+				// Conservation du modèle dans un attribut de la requête.
 				request.setAttribute("modAcceptDemAmi", mga);
 				
 			// Ressource non disponible
@@ -226,7 +231,8 @@ public class ControleurMembre extends HttpServlet {
 			// ========================
 			if (uri.equals("/membre/") || uri.equals("/membre")
 					|| uri.equals("/membre/profil")	|| uri.equals("/membre/sugg-amis")
-					|| uri.equals("/membre/supp-ami") || uri.equals("/membre/dem-ami")) {
+					|| uri.equals("/membre/supp-ami") || uri.equals("/membre/dem-ami")
+					|| uri.equals("/membre/accept-dem-ami") || uri.equals("/membre/mes-ami")) {
 				response.sendError(405);
 				
 			// Ressource non disponible
