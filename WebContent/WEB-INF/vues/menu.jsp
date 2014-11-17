@@ -12,6 +12,12 @@
 	<c:if test="${empty sessionScope['modeConn'] || sessionScope['modeConn'] == 'AUCUN'}">
 		<li><a href="${pageContext.request.contextPath}/">M'inscrire</a></li>
 	</c:if>
-	
-	<li><a href="${pageContext.request.contextPath}/rech-amis">Rechercher des amis</a></li>
+	<c:choose>
+		<c:when test="${sessionScope['modeConn'] == 'ADMIN'}">
+			<li><a href="${pageContext.request.contextPath}/admin">Gestion des publications</a></li>			
+		</c:when>
+		<c:otherwise>
+			<li><a href="${pageContext.request.contextPath}/rech-amis">Rechercher des amis</a></li>
+		</c:otherwise>
+	</c:choose>
 </ul>
