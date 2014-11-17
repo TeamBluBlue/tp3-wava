@@ -45,7 +45,7 @@
 						Demande: ${da.DemAmiDate }
 					</p>
 					<p>
-						<a href="${pageContext.request.contextPath}/membre/accept-dem-ami?no-ami=${da.MemNo}">Ajouter comme ami<c:choose><c:when test="${da.MemSexe == 'F'}">e</c:when></c:choose></a>
+						<a href="${pageContext.request.contextPath}/membre/accept-dem-ami?no-ami=${da.MemNo}">Ajouter comme ami<c:if test="${da.MemSexe == 'F'}">e</c:if></a>
 					</p>
 				</li>
 			</c:forEach>

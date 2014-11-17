@@ -77,7 +77,7 @@ public class ControleurAdmin extends HttpServlet {
 	/**
 	 * Permet de gérer les ressources GET suivantes :
 	 * 		"/admin/" ou "/admin"		:	Accueil pour les administrateurs
-	 *		"/membre/supp-pub"			:	Supprimer une publication
+	 *		"/admin/supp-pub"			:	Supprimer une publication
 	 * 
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -96,15 +96,15 @@ public class ControleurAdmin extends HttpServlet {
 				// Paramètres pour la vue créée à partir du gabarit.
 				vue = "/WEB-INF/vues/gabarit-vues.jsp";
 				vueContenu = "/WEB-INF/vues/admin/accueil-admin.jsp";
-				vueSousTitre = "Administration";
+				vueSousTitre = "Gestion des publications";
 
 			// Accueil - Membres
 			// =================	
 			} else if (uri.equals("/admin/supp-pub")) {
 				// Paramètres pour la vue créée à partir du gabarit.
 				vue = "/WEB-INF/vues/gabarit-vues.jsp";
-				vueContenu = "/WEB-INF/vues/admin/en-construction.jsp";
-				vueSousTitre = "Administration";
+				vueContenu = "/WEB-INF/vues/en-construction.jsp";
+				vueSousTitre = "En construction";
 
 				
 			// Ressource non disponible

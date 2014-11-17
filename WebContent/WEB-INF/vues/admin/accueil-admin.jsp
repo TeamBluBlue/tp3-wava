@@ -19,7 +19,7 @@
 	
 	<c:choose>
 		<c:when test="${resInfoPub.rowCount == 0}">
-			<p>Aucune publication sur votre babillard</p>
+			<p>Aucune publication sur twitface</p>
 		</c:when>
 		<c:otherwise>
 			<ul id="lst-pub-babillard">
@@ -32,6 +32,9 @@
 						<p>Publié par ${pub.MemNom}</p>
 						<p>${pub.PubDate}</p>
 						<p>${pub.PubTexte}</p>
+						<p>
+							<a class="lien-supp" href="${pageContext.request.contextPath}/admin/supp-pub?no-pub=${pub.PubNo}"><img src="${pageContext.request.contextPath}/images/detruire.png" alt="Supprimer la publication" /></a>
+						</p>
 					</li>
 				</c:forEach>
 			</ul>
