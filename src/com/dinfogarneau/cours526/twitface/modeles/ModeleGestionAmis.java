@@ -141,16 +141,16 @@ public class ModeleGestionAmis {
 	}
 
 	/**
-	 * Retourne le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
-	 * @return Le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
+	 * Retourne si la demande d'amitié a été correctement acceptée.
+	 * @return Si la demande d'amitié a été correctement acceptée.
 	 */
 	public boolean isDemandeAcceptee() {
 		return this.demandeAcceptee;
 	}
 	
 	/**
-	 * Modifie le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
-	 * @param demandeAcceptee Le nouveau nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
+	 * Modifie si la demande d'amitié a été correctement acceptée.
+	 * @param demandeAcceptee Si la demande d'amitié a été correctement acceptée.
 	 */
 	public void setDemandeAcceptee(boolean demandeAcceptee) {
 		this.demandeAcceptee = demandeAcceptee;
@@ -161,7 +161,7 @@ public class ModeleGestionAmis {
 	
 	/**
 	 * Permet de suggérer des amis.
-	 * @param noMem Le numéro de l'utilisateur connecté.
+	 * @param noUtil Le numéro de l'utilisateur connecté.
 	 * @param indicePremChaine L'indice dans le jeu de résultats du premier ami à retourner pour les suggestions.
 	 * @param nbAmisSuggChaine Le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
 	 * @throws NamingException S'il est impossible de trouver la source de données.
@@ -319,6 +319,7 @@ public class ModeleGestionAmis {
 
 		// Traitement du paramètre donnant le numéro de l'utilisateur qui a fait la demande
 		int noUtilDem;
+		
 		// Est-ce que le paramètre est présent ?
 		if (noUtilDemChaine != null) {
 			// Est-ce que c'est un entier ?
@@ -326,14 +327,14 @@ public class ModeleGestionAmis {
 				noUtilDem = Integer.parseInt(noUtilDemChaine);
 			} catch (NumberFormatException nfe) {
 				this.demandeAcceptee = false;
-				this.message = "Le numéro de l'utilisateur demandant n'est pas un numéro.";
+				this.message = "Le numéro de l'utilisateur demandant n'est pas un numéro. (°~°)";
 				return;
 			}
-		}
-		else
-		{
+		// Le paramètre est absent
+		} else {
+			// La demande n'est pas acceptée
 			this.demandeAcceptee = false;
-			this.message = "Le numéro de l'utilisateur demandant ne doit pas être nul.";
+			this.message = "Le numéro de l'utilisateur demandant ne doit pas être nul. ( -_-')";
 			return;
 		}
 		
@@ -346,30 +347,37 @@ public class ModeleGestionAmis {
 		// Obtention de la connexion à la BD.
 		utilBd.ouvrirConnexion();
 
-		// Requête SQL permettant de suggérer des amis en fonction du nombre d'amis en commun (Ayoye !!!).
+		// Requête SQL permettant de supprimer la demande d'amitié.
 		String reqSQLSupprDem = "DELETE FROM demandes_amis WHERE MemNoDemandeur=? AND MemNoInvite=?";	
+
 		// Préparation de la requête SQL.
 		utilBd.preparerRequete(reqSQLSupprDem, false);
-		
-		int nbRangs = utilBd.executerRequeteMaj(noUtilDem, noUtilRep);
+
 		// Exécution de la requête tout en lui passant les paramètres pour l'exécution.
+		// La requete retourne le nombre de lignes affectées.
+		int nbRangs = utilBd.executerRequeteMaj(noUtilDem, noUtilRep);
+		
+		// S'il y a au moins un rang qui a été supprimé, la demande existe, et elle peut être acceptée.
 		this.demandeAcceptee = nbRangs > 0;
-				
+		
+		// Si la demande est acceptée
 		if (this.demandeAcceptee) {
 			String reqSQLRendreAmis = "INSERT INTO amis (MemNo1, MemNo2, DateAmitie) VALUES (?, ?, NOW())";
 			
 			utilBd.preparerRequete(reqSQLRendreAmis, false);
 			
-			// Exécution de la requête tout en lui passant les paramètres pour l'exécution.
+			// La demande a été acceptée si un rang a été ajouté lors de
+			// l'exécution de la requête (tout en lui passant les paramètres pour l'exécution).
 			this.demandeAcceptee = utilBd.executerRequeteMaj(noUtilDem, noUtilRep) == 1;
 			
+			// Si la demande est acceptée
 			if (this.demandeAcceptee) {
-				this.message = "Demande acceptée! Vous avez un nouvel ami :-)";
+				this.message = "Demande acceptée! Vous avez un nouvel ami \\(^o^)/";
 			} else {
-				this.message = "Erreur lors de la création de l'amitié :-(";
+				this.message = "Erreur lors de la création de l'amitié (-_-)";
 			}
 		} else {
-			this.message = "La demande d'amitié n'existe pas! :-o";			
+			this.message = "La demande d'amitié n'existe pas! (Q_Q)";			
 		}
 		
 		// Fermeture de la connexion à la BD.

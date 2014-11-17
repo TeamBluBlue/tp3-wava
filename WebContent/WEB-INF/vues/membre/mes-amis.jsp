@@ -6,14 +6,14 @@
 <h2>Vos demandes d'amitié</h2>
 <c:choose>
 	<c:when test="${requestScope.modAcceptDemAmi != null}">
-		<c:choose>
-			<c:when test="${requestScope.modAcceptDemAmi.demandeAcceptee}">
-				<p id="msg-conf-accept-dem-ami">
-			</c:when>
-			<c:otherwise>
-				<p id="msg-err-accept-dem-ami">
-			</c:otherwise>
-		</c:choose>
+		<%--Définition de l'id du message à afficher (confirmation ou erreur) --%>
+		<p id="msg-
+			<c:choose><c:when test="${requestScope.modAcceptDemAmi.demandeAcceptee}">
+				conf
+			</c:when><c:otherwise>
+				err
+			</c:otherwise></c:choose>
+		-accept-dem-ami">
 			${requestScope.modAcceptDemAmi.message}
 		</p>
 	</c:when>
