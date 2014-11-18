@@ -26,7 +26,9 @@
 			<input type="hidden" name="source" value="rech-amis" />
 
 			<%-- Affichage du message d'erreur, si nécessaire --%>
-			<p id="msg-err-conn">MESSAGE D'ERREUR, SI NÉCESSAIRE SEULEMENT</p>
+			<c:if test="${not empty requestScope.msgErrConn}">
+				<p id="msg-err-conn">${requestScope.msgErrConn}</p>
+			</c:if>
 		</form>
 	</div>  <!-- Fin de la division "form-connexion" -->
 
