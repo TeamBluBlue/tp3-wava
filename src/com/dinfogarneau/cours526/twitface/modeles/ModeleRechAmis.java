@@ -9,156 +9,142 @@ import com.dinfogarneau.cours526.twitface.classes.Ami;
 import com.dinfogarneau.cours526.util.ReqPrepBdUtil;
 
 /**
- * Modèle permettant de gérer les amis d'un membre (un Java Bean).
- * @author Stéphane Lapointe
+ * Modèle permettant rechercher des amis
  * @author Éric Bonin
  * @author Charles-André Beaudry
  */
-public class ModeleGestionAmis {
-	
-	// Constantes
-	// ==========
-	/**
-	 * Nombre maximal d'amis suggérés.
-	 */
-	public final int NB_MAX_AMIS_SUGG = 20;
-	
+public class ModeleRechAmis {
+		
 	// Attributs
 	// =========
 
-	// Pour les suggestions d'amis
+	// Pour la recherche d'amis
 	// ---------------------------
 	
 	/**
-	 * Liste de suggestions d'amis.
+	 * Liste des amis recherchés.
 	 */
-	private ArrayList<Ami> lstSuggAmis;
+	private ArrayList<Ami> lstRechAmis;
 	
 	/**
-	 * L'indice dans le jeu de résultats du premier ami à retourner pour les suggestions.
+	 * Le nom (ou une partie) des amis que le jeu de résultats doit contenir pour la recherche.
 	 */
-	private int indicePrem;
+	private String nomAmi;
 	
 	/**
-	 * Le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
+	 * La ville d'origine des amis que le jeu de résultats doit contenir pour la recherche.
 	 */
-	private int nbAmisSugg;
+	private String villeOrigine;
 	
 	/**
-	 * Acceptation de la demande d'amitié
+	 * Le ville d'origine des amis que le jeu de résultats doit contenir pour la recherche.
 	 */
-	private boolean demandeAcceptee;
-
+	private String villeActuelle;
+	
 	/**
-	 * Le message relié à la demande d'amitié
+	 * Le sexe des amis que le jeu de résultats doit contenir pour la recherche.
 	 */
-	private String message;
+	private String[] sexe;
 
 	// Constructeur
 	// ============
 	/**
 	 * Initialise les attributs du modèle de gestion d'amis.
 	 */
-	public ModeleGestionAmis() {
-		this.lstSuggAmis = null;
-		this.indicePrem = 0;
-		this.nbAmisSugg = NB_MAX_AMIS_SUGG;
+	public ModeleRechAmis() {
+		this.lstRechAmis = null;
+		this.nomAmi = "";
+		this.villeOrigine = "";
+		this.villeActuelle = "";
+		this.sexe = new String[2];
 	}
 
 	
 	// Getters et Setters
 	// ==================
-	
-	// Pour les suggestions d'amis
-	// ---------------------------
 
 	/**
 	 * Retourne la liste de suggestions d'amis.
 	 * @return La liste de suggestions d'amis.
 	 */
-	public ArrayList<Ami> getLstSuggAmis() {
-		return this.lstSuggAmis;
+	public ArrayList<Ami> getLstRechAmis() {
+		return this.lstRechAmis;
 	}
 
 	/**
 	 * Modifie la liste de suggestions d'amis.
-	 * @param lstSuggAmis La nouvelle liste de suggestions d'amis.
+	 * @param lstRechAmis La nouvelle liste de suggestions d'amis.
 	 */
-	public void setLstSuggAmis(ArrayList<Ami> lstSuggAmis) {
-		this.lstSuggAmis = lstSuggAmis;
-	}
-
-	/**
-	 * Retourne l'indice dans le jeu de résultats du premier ami à retourner pour les suggestions.
-	 * @return L'indice dans le jeu de résultats du premier ami à retourner pour les suggestions.
-	 */
-	public int getIndicePrem() {
-		return this.indicePrem;
-	}
-
-	/**
-	 * Modifie l'indice dans le jeu de résultats du premier ami à retourner pour les suggestions.
-	 * @param indicePrem Le nouvel indice dans le jeu de résultats du premier ami à retourner pour les suggestions.
-	 */
-	public void setIndicePrem(int indicePrem) {
-		this.indicePrem = indicePrem;
-	}
-
-	/**
-	 * Retourne le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
-	 * @return Le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
-	 */
-	public int getNbAmisSugg() {
-		return this.nbAmisSugg;
-	}
-
-	/**
-	 * Modifie le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
-	 * @param nbAmisSugg Le nouveau nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
-	 */
-	public void setNbAmisSugg(int nbAmisSugg) {
-		this.nbAmisSugg = nbAmisSugg;
-	}
-
-	
-	// Pour les demandes d'amitié
-	// ---------------------------
-	
-	/**
-	 * Retourne le message relié à l'état de l'acceptation de la demande d'amitié.
-	 * @return le message relié à l'état de l'acceptation de la demande d'amitié.
-	 */
-	public String getMessage() {
-		return this.message;
-	}
-
-	/**
-	 * Modifie le message relié à l'état de l'acceptation de la demande d'amitié.
-	 * @param message le message relié à l'état de l'acceptation de la demande d'amitié
-	 */
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	/**
-	 * Retourne si la demande d'amitié a été correctement acceptée.
-	 * @return Si la demande d'amitié a été correctement acceptée.
-	 */
-	public boolean isDemandeAcceptee() {
-		return this.demandeAcceptee;
+	public void setLstRechAmis(ArrayList<Ami> lstRechAmis) {
+		this.lstRechAmis = lstRechAmis;
 	}
 	
 	/**
-	 * Modifie si la demande d'amitié a été correctement acceptée.
-	 * @param demandeAcceptee Si la demande d'amitié a été correctement acceptée.
+	 * @return the nomAmi
 	 */
-	public void setDemandeAcceptee(boolean demandeAcceptee) {
-		this.demandeAcceptee = demandeAcceptee;
+	public String getNomAmi() {
+		return nomAmi;
 	}
-	
+
+
+	/**
+	 * @param nomAmi the nomAmi to set
+	 */
+	public void setNomAmi(String nomAmi) {
+		this.nomAmi = nomAmi;
+	}
+
+
+	/**
+	 * @return the villeOrigine
+	 */
+	public String getVilleOrigine() {
+		return villeOrigine;
+	}
+
+
+	/**
+	 * @param villeOrigine the villeOrigine to set
+	 */
+	public void setVilleOrigine(String villeOrigine) {
+		this.villeOrigine = villeOrigine;
+	}
+
+
+	/**
+	 * @return the villeActuelle
+	 */
+	public String getVilleActuelle() {
+		return villeActuelle;
+	}
+
+
+	/**
+	 * @param villeActuelle the villeActuelle to set
+	 */
+	public void setVilleActuelle(String villeActuelle) {
+		this.villeActuelle = villeActuelle;
+	}
+
+	/**
+	 * @return the sexe
+	 */
+	public String[] getSexe() {
+		return sexe;
+	}
+
+
+	/**
+	 * @param sexe the sexe to set
+	 */
+	public void setSexe(String[] sexe) {
+		this.sexe = sexe;
+	}
+
 	// Méthodes
 	// ========
 	
+
 	/**
 	 * Permet de suggérer des amis.
 	 * @param noUtil Le numéro de l'utilisateur connecté.
@@ -167,7 +153,7 @@ public class ModeleGestionAmis {
 	 * @throws NamingException S'il est impossible de trouver la source de données.
 	 * @throws SQLException S'il y a une erreur SQL quelconque.
 	 */
-	public void suggererAmis(int noUtil, String indicePremChaine, String nbAmisSuggChaine) throws NamingException, SQLException {
+	public void rechercherAmis(int noUtil, String indicePremChaine, String nbAmisSuggChaine) throws NamingException, SQLException {
 
 		// Traitement du paramètre donnant l'indice dans le jeu
 		// de résultats du premier ami à retourner (l'indice est en base 0).
@@ -289,7 +275,7 @@ public class ModeleGestionAmis {
 				indicePrem, nbAmisSugg);
 
 		// Création de liste de suggestions d'amis.
-		this.lstSuggAmis = new ArrayList<Ami>();
+		this.lstRechAmis = new ArrayList<Ami>();
 		// Objet pour conserver une suggestion d'ami.
 		Ami ami;
 		// Parcours des amis suggérés.
@@ -297,7 +283,7 @@ public class ModeleGestionAmis {
 			// Création de l'objet "Ami".
 			ami = new Ami(rs.getString("MemNom"), rs.getInt("NoAmiPotentiel"), rs.getInt("NbAmisEnCom"));
 			// Ajout de l'ami dans la liste.
-			this.lstSuggAmis.add(ami);
+			this.lstRechAmis.add(ami);
 		}
 
 		// Prochain indice du premier si on désire d'autres suggestions d'amis (les suggestions suivantes).
