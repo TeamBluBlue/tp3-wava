@@ -17,6 +17,14 @@
     <servlet-name>ControleurMembre</servlet-name>
     <url-pattern>/membre/*</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>ControleurAdmin</servlet-name>
+    <servlet-class>com.dinfogarneau.cours526.twitface.controleurs.ControleurAdmin</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ControleurAdmin</servlet-name>
+    <url-pattern>/admin/*</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>default</servlet-name>
     <url-pattern>*.css</url-pattern>

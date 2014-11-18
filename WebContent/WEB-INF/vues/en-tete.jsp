@@ -34,13 +34,18 @@
 	<%-- Utilisateur connecté; on affiche de l'information sur l'utilisateur --%>
 	<c:if test="${not empty sessionScope['modeConn'] && sessionScope['modeConn'] != 'AUCUN'}">
 		<%-- Affichage de la photo si c'est un membre (pas un administrateur) --%>
-		<fmt:formatNumber var="noFormate" value="${sessionScope['noUtil']}" pattern="000" />
-		<img src="${pageContext.request.contextPath}/images/photos/membre-${noFormate}.jpg" id="photo-membre-conn" alt="Photo de ${sessionScope['nom']}" />
-			
+		<c:if test="${sessionScope['modeConn'] == 'MEMBRE'}">	
+			<fmt:formatNumber var="noFormate" value="${sessionScope['noUtil']}" pattern="000" />
+			<img src="${pageContext.request.contextPath}/images/photos/membre-${noFormate}.jpg" id="photo-membre-conn" alt="Photo de ${sessionScope['nom']}" />
+		</c:if>	
 		<div id="info-util">
 			<p>
 				${sessionScope['nom']} (${sessionScope['nomUtil']})
 			</p>
+			<c:if test="${sessionScope['modeConn'] == 'ADMIN'}">
+				<p>Administrateur du site Web</p>
+			</c:if>
+			
 			<p>
 				<a href="${pageContext.request.contextPath}/deconnexion">Déconnexion</a>
 			</p>

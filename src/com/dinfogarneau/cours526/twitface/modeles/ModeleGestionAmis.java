@@ -11,7 +11,8 @@ import com.dinfogarneau.cours526.util.ReqPrepBdUtil;
 /**
  * Modèle permettant de gérer les amis d'un membre (un Java Bean).
  * @author Stéphane Lapointe
- * @author VOS NOMS COMPLETS ICI
+ * @author Éric Bonin
+ * @author Charles-André Beaudry
  */
 public class ModeleGestionAmis {
 	
@@ -43,6 +44,16 @@ public class ModeleGestionAmis {
 	 */
 	private int nbAmisSugg;
 	
+	/**
+	 * Le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
+	 */
+	private boolean demandeAcceptee;
+
+	/**
+	 * Le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
+	 */
+	private String message;
+
 	// Constructeur
 	// ============
 	/**
@@ -110,12 +121,47 @@ public class ModeleGestionAmis {
 	}
 
 	
+	// Pour les demandes d'amitié
+	// ---------------------------
+	
+	/**
+	 * Retourne le message relié à l'état de l'acceptation de la demande d'amitié.
+	 * @return le message relié à l'état de l'acceptation de la demande d'amitié.
+	 */
+	public String getMessage() {
+		return this.message;
+	}
+
+	/**
+	 * Modifie le message relié à l'état de l'acceptation de la demande d'amitié.
+	 * @param message le message relié à l'état de l'acceptation de la demande d'amitié
+	 */
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	/**
+	 * Retourne si la demande d'amitié a été correctement acceptée.
+	 * @return Si la demande d'amitié a été correctement acceptée.
+	 */
+	public boolean isDemandeAcceptee() {
+		return this.demandeAcceptee;
+	}
+	
+	/**
+	 * Modifie si la demande d'amitié a été correctement acceptée.
+	 * @param demandeAcceptee Si la demande d'amitié a été correctement acceptée.
+	 */
+	public void setDemandeAcceptee(boolean demandeAcceptee) {
+		this.demandeAcceptee = demandeAcceptee;
+	}
+	
 	// Méthodes
 	// ========
 	
 	/**
 	 * Permet de suggérer des amis.
-	 * @param noMem Le numéro de l'utilisateur connecté.
+	 * @param noUtil Le numéro de l'utilisateur connecté.
 	 * @param indicePremChaine L'indice dans le jeu de résultats du premier ami à retourner pour les suggestions.
 	 * @param nbAmisSuggChaine Le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
 	 * @throws NamingException S'il est impossible de trouver la source de données.
@@ -261,5 +307,81 @@ public class ModeleGestionAmis {
 		utilBd.fermerConnexion();
 		
 	}  // Fin de "suggererAmis"
+	
+	/**
+	 * Permet d'accepter une demande d'amitié.
+	 * @param noUtilDemChaine Le numéro de l'utilisateur qui a fait la demande d'amitié
+	 * @param noUtilRep Le numéro de l'utilisateur connecté.
+	 * @throws NamingException S'il est impossible de trouver la source de données.
+	 * @throws SQLException S'il y a une erreur SQL quelconque.
+	 */
+	public void accepterDemande(String noUtilDemChaine, int noUtilRep) throws NamingException, SQLException {
+
+		// Traitement du paramètre donnant le numéro de l'utilisateur qui a fait la demande
+		int noUtilDem;
+		
+		// Est-ce que le paramètre est présent ?
+		if (noUtilDemChaine != null) {
+			// Est-ce que c'est un entier ?
+			try {
+				noUtilDem = Integer.parseInt(noUtilDemChaine);
+			} catch (NumberFormatException nfe) {
+				this.demandeAcceptee = false;
+				this.message = "Le numéro de l'utilisateur demandant n'est pas un numéro. (°~°)";
+				return;
+			}
+		// Le paramètre est absent
+		} else {
+			// La demande n'est pas acceptée
+			this.demandeAcceptee = false;
+			this.message = "Le numéro de l'utilisateur demandant ne doit pas être nul. ( -_-')";
+			return;
+		}
+		
+		// Source de données (JNDI).
+		String nomDataSource = "jdbc/twitface";
+
+		// Création de l'objet pour l'accès à la BD.
+		ReqPrepBdUtil utilBd = new ReqPrepBdUtil(nomDataSource);
+
+		// Obtention de la connexion à la BD.
+		utilBd.ouvrirConnexion();
+
+		// Requête SQL permettant de supprimer la demande d'amitié.
+		String reqSQLSupprDem = "DELETE FROM demandes_amis WHERE MemNoDemandeur=? AND MemNoInvite=?";	
+
+		// Préparation de la requête SQL.
+		utilBd.preparerRequete(reqSQLSupprDem, false);
+
+		// Exécution de la requête tout en lui passant les paramètres pour l'exécution.
+		// La requete retourne le nombre de lignes affectées.
+		int nbRangs = utilBd.executerRequeteMaj(noUtilDem, noUtilRep);
+		
+		// S'il y a au moins un rang qui a été supprimé, la demande existe, et elle peut être acceptée.
+		this.demandeAcceptee = nbRangs > 0;
+		
+		// Si la demande est acceptée
+		if (this.demandeAcceptee) {
+			String reqSQLRendreAmis = "INSERT INTO amis (MemNo1, MemNo2, DateAmitie) VALUES (?, ?, NOW())";
+			
+			utilBd.preparerRequete(reqSQLRendreAmis, false);
+			
+			// La demande a été acceptée si un rang a été ajouté lors de
+			// l'exécution de la requête (tout en lui passant les paramètres pour l'exécution).
+			this.demandeAcceptee = utilBd.executerRequeteMaj(noUtilDem, noUtilRep) == 1;
+			
+			// Si la demande est acceptée
+			if (this.demandeAcceptee) {
+				this.message = "Demande acceptée! Vous avez un nouvel ami \\(^o^)/";
+			} else {
+				this.message = "Erreur lors de la création de l'amitié (-_-)";
+			}
+		} else {
+			this.message = "La demande d'amitié n'existe pas! (Q_Q)";			
+		}
+		
+		// Fermeture de la connexion à la BD.
+		utilBd.fermerConnexion();
+	}
 
 }
