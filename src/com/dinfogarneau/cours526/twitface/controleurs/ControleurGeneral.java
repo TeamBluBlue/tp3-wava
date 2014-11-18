@@ -147,9 +147,9 @@ public class ControleurGeneral extends HttpServlet {
 			// afficher la page d'accueil
 			if (modConnexion.erreurConnexion()){
 				request.setAttribute("msgErrConn", modConnexion.getMsgErreur());
+				String source = (String)request.getParameter("source");
 				
-				if (request.getAttribute("source") != null
-					&& request.getAttribute("source") == "rech-amis"){
+				if (source != null && source.contains("rech-amis")){
 					this.vue = "/WEB-INF/vues/gabarit-vues.jsp";
 					this.vueContenu = "/WEB-INF/vues/general/rech-amis.jsp";
 					this.vueSousTitre = "Rechercher des amis";
