@@ -14,7 +14,7 @@
 		<form method="post" action="${pageContext.request.contextPath}/connexion">
 			<p>
 				<label for="nom-util">Nom d'utilisateur : </label>
-				<input type="text" name="nom-util" id="nom-util" />
+				<input type="text" name="nom-util" id="nom-util" value="${param['nom-util']}" />
 			</p>
 			<p>
 				<label for="mot-passe">Mot de passe : </label>
