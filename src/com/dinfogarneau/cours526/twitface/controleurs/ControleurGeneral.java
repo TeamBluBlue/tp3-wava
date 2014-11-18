@@ -1,16 +1,21 @@
 package com.dinfogarneau.cours526.twitface.controleurs;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
+import javax.naming.NamingException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.dinfogarneau.cours526.twitface.classes.ConnexionMode;
+import com.dinfogarneau.cours526.twitface.modeles.ModeleConnexion;
 
 /**
  * Contrôleur général pour les ressources publiques.
  * @author Stéphane Lapointe
- * @author VOS NOMS COMPLETS ICI
+ * @author Éric Bonin
+ * @author Charles-André Beaudry
  */
 public class ControleurGeneral extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -126,21 +131,43 @@ public class ControleurGeneral extends HttpServlet {
 		// Connexion
 		// =========
 		if (this.uri.equals("/connexion")) {
-
-			// TEMPORAIRE POUR SIMULER LE FAIT D'ÊTRE CONNECTÉ
-			// ***********************************************
-			request.getSession().setAttribute("nomUtil", "sackid");
-			request.getSession().setAttribute("nom", "Sacha Kidd");
-			request.getSession().setAttribute("noUtil", 258);
-			request.getSession().setAttribute("modeConn", ConnexionMode.MEMBRE);
-			// NOTE: DEVRA ÊTRE IMPLEMENTÉ À L'AIDE DU BEAN DE CONNEXION
-			// *********************************************************
-
-			// Redirection côté client vers la section pour les membres.
-			// Note : Aucune vue ne sera produite comme réponse à cette requête;
-			// La requête subséquente vers la section "membre" (faite par le navigateur Web)
-			// produira la vue correspondant à la page d'accueil des membres.
-			response.sendRedirect("membre");
+			String nomUtil = request.getParameter("nom-util");
+			String mdp = request.getParameter("mot-passe");
+			
+			ModeleConnexion modConnexion = new ModeleConnexion();
+			
+			try{
+				modConnexion.connecterUtilisateur(nomUtil, mdp);
+			}
+			catch(NamingException | SQLException e){
+				throw new ServletException(e);
+			}
+			
+			// Si une erreur s'est produite durant la connexion,
+			// afficher la page d'accueil
+			if (modConnexion.erreurConnexion()){
+				request.setAttribute("msgErrConn", modConnexion.getMsgErreur());
+				
+				if (request.getAttribute("source") != null
+					&& request.getAttribute("source") == "rech-amis"){
+					this.vue = "/WEB-INF/vues/gabarit-vues.jsp";
+					this.vueContenu = "/WEB-INF/vues/general/rech-amis.jsp";
+					this.vueSousTitre = "Rechercher des amis";
+				}
+				else{
+					this.vue = "/WEB-INF/vues/index.jsp";
+				}
+			}
+			else{
+				// Si l'utilisateur est connecté, rediriger vers la bonne section
+				request.getSession().setAttribute("connBean", modConnexion.getUtilisateurConnecte());
+				
+				if (modConnexion.getUtilisateurConnecte().getModeConn() == ConnexionMode.ADMIN)
+					response.sendRedirect("admin");
+				else{
+					response.sendRedirect("membre");
+				}
+			}
 
 		// Méthode HTTP non permise
 		// ========================
