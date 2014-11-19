@@ -21,7 +21,6 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/twitface-index-erreur.css" />
 </head>
 <body>
-
 	<div id="page">
 
 		<header>
@@ -32,7 +31,9 @@
 		<div id="contenu">
 
 			<%-- Affichage du message confirmation la déconnexion, si nécessaire --%>
-			<p id="msg-conf-deconn">MESSAGE DE CONFIRMATION DE DÉCONNEXION, SI NÉCESSAIRE</p>
+			<c:if test="${not empty requestScope.msgConfDeconn}">
+				<p id="msg-conf-deconn">${requestScope.msgConfDeconn}</p>
+			</c:if>
 
 			<section id="inscription">
 				<h2>Inscription</h2>
@@ -50,7 +51,7 @@
 					<form method="post" action="${pageContext.request.contextPath}/connexion">
 						<p>
 							<label for="nom-util">Nom d'utilisateur : </label>
-							<input type="text" name="nom-util" id="nom-util" />
+							<input type="text" name="nom-util" id="nom-util" value="${fn:trim(param['nom-util'])}" />
 						</p>
 						<p>
 							<label for="mot-passe">Mot de passe : </label>
@@ -59,8 +60,9 @@
 						<input type="image" id="img-soumettre-connexion" src="${pageContext.request.contextPath}/images/icone-connexion.png" alt="Se connecter" />
 
 						<%-- Affichage du message d'erreur, si nécessaire --%>
-						<p id="msg-err-conn">MESSAGE D'ERREUR, SI NÉCESSAIRE</p>
-
+						<c:if test="${not empty requestScope.msgErrConn}">
+							<p id="msg-err-conn">${requestScope.msgErrConn}</p>
+						</c:if>
 					</form>
 				</div>  <!-- Fin de la division "form-connexion" -->
 			</section>  <!-- Fin de la section "connexion" -->

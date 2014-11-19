@@ -11,7 +11,7 @@
 		SELECT *
 		FROM membres
 		WHERE MemNo = ?
-		<sql:param value="${sessionScope['noUtil']}" />
+		<sql:param value="${sessionScope['connBean'].noUtil}" />
 	</sql:query>
 	
 	<%-- Affichage des informations du membre --%>
@@ -47,7 +47,7 @@
 		p.MemNoCreateur = m.MemNo
 		WHERE MemNoBabillard = ?
 		ORDER BY PubDate DESC
-		<sql:param value="${sessionScope['noUtil']}" />
+		<sql:param value="${sessionScope['connBean'].noUtil}" />
 	</sql:query>
 	
 	<c:choose>

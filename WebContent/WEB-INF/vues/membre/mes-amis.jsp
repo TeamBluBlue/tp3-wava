@@ -24,7 +24,7 @@
 	INNER JOIN demandes_amis ON membres.MemNo = demandes_amis.MemNoDemandeur
 	WHERE MemNoInvite=?
 	ORDER BY MemNom
-	<sql:param value="${sessionScope['noUtil']}" />
+	<sql:param value="${sessionScope['connBean'].noUtil}" />
 </sql:query>
 
 <c:choose>
@@ -63,8 +63,8 @@
 		SELECT MemNo2 FROM amis WHERE MemNo1=?
 	)
 	ORDER BY MemNom ASC
-	<sql:param value="${sessionScope['noUtil']}" />
-	<sql:param value="${sessionScope['noUtil']}" />
+	<sql:param value="${sessionScope['connBean'].noUtil}" />
+	<sql:param value="${sessionScope['connBean'].noUtil}" />
 </sql:query>
 <c:choose>
 	<c:when test="${empty resAmis.rows}">

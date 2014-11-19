@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.dinfogarneau.cours526.twitface.classes.ConnexionMode;
 import com.dinfogarneau.cours526.twitface.modeles.ModeleGestionAmis;
+import com.dinfogarneau.cours526.twitface.beans.ConnexionBean;
 
 /**
  * Contrôleur pour les ressources des membres.
@@ -63,12 +64,11 @@ public class ControleurMembre extends HttpServlet {
 		response.setHeader("Pragma", "no-cache");  // HTTP 1.0.
 		response.setDateHeader("Expires", 0);  // Proxies.
 		
-		// Récupération du mode de connexion dans la session utilisateur.
-		// *** À MODIFIER (UTILISATION DU BEAN DE CONNEXION) ***
-		ConnexionMode modeConn = (ConnexionMode) request.getSession().getAttribute("modeConn");
+		// Récupération du ConnexionBean dans la session de l'utilisateur
+		ConnexionBean util = (ConnexionBean) request.getSession().getAttribute("connBean");
 
 		// Contrôle d'accès à la section pour les clients.
-		if (modeConn == null || modeConn != ConnexionMode.MEMBRE) {
+		if (util.getModeConn() != ConnexionMode.MEMBRE) {
 			// Non connecté en tant que membre; on retourne une code d'erreur
 			// HTTP 401 qui sera intercepté par la page d'erreur "erreur-401.jsp".
 			response.sendError(401);
@@ -98,7 +98,9 @@ public class ControleurMembre extends HttpServlet {
 			// ================================
 			// Gestion de la ressource demandée
 			// ================================
-
+			
+			ConnexionBean util = (ConnexionBean) request.getSession().getAttribute("connBean");
+			
 			// Accueil - Membres
 			// =================
 			if (uri.equals("/membre/") || uri.equals("/membre")) {
@@ -106,10 +108,7 @@ public class ControleurMembre extends HttpServlet {
 				vue = "/WEB-INF/vues/gabarit-vues.jsp";
 				vueContenu = "/WEB-INF/vues/membre/accueil-membre.jsp";
 				
-				// *** À MODIFIER (UTILISATION DU BEAN DE CONNEXION) ***
-				String nom = (String) request.getSession().getAttribute("nom");
-				String nomUtil = (String) request.getSession().getAttribute("nomUtil");
-				vueSousTitre = "Page personnelle de " + nom + " (" + nomUtil + ")";
+				vueSousTitre = "Page personnelle de " + util.getNom() + " (" + util.getNomUtil() + ")";
 
 			// Profil - Babillard
 			// ==================
@@ -137,7 +136,7 @@ public class ControleurMembre extends HttpServlet {
 				// La liste des amis suggérés est conservée dans le modèle.
 				try {
 					mga.suggererAmis(
-							(int) request.getSession().getAttribute("noUtil"),
+							util.getNoUtil(),
 							request.getParameter("indice-prem"),
 							request.getParameter("nb-amis-sugg")
 							);
@@ -190,7 +189,7 @@ public class ControleurMembre extends HttpServlet {
 				try {
 					mga.accepterDemande(
 							request.getParameter("no-ami"),
-							(int) request.getSession().getAttribute("noUtil")
+							util.getNoUtil()
 							);
 				} catch (NamingException | SQLException e) {
 					throw new ServletException(e);
