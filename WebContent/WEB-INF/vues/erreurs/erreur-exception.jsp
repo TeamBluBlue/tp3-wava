@@ -38,10 +38,10 @@
 
 			<%-- Affichage d'un lien approprié en fonction du mode de connection --%>
 			<c:choose>
-				<c:when test="${sessionScope['modeConn'] == 'MEMBRE'}">
+				<c:when test="${sessionScope['connBean'].modeConn == 'MEMBRE'}">
 					<a href="${pageContext.request.contextPath}/membre">Retour à votre page personnelle</a>
 				</c:when>
-				<c:when test="${sessionScope['modeConn'] == 'ADMIN'}">
+				<c:when test="${sessionScope['connBean'].modeConn == 'ADMIN'}">
 					<a href="${pageContext.request.contextPath}/admin">Retour à la page d'administration du site Web</a>
 				</c:when>
 				<c:otherwise>

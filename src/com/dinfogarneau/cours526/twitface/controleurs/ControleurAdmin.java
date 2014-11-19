@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.dinfogarneau.cours526.twitface.classes.ConnexionMode;
+import com.dinfogarneau.cours526.twitface.beans.ConnexionBean;
 
 /**
  * Contrôleur pour les ressources des administrateurs.
@@ -62,7 +63,7 @@ public class ControleurAdmin extends HttpServlet {
 		
 		// Récupération du mode de connexion dans la session utilisateur.
 		// *** À MODIFIER (UTILISATION DU BEAN DE CONNEXION) ***
-		ConnexionMode modeConn = (ConnexionMode) request.getSession().getAttribute("modeConn");
+		ConnexionMode modeConn = (ConnexionMode) ((ConnexionBean)request.getSession().getAttribute("connBean")).getModeConn();
 
 		// Contrôle d'accès à la section pour les clients.
 		if (modeConn == null || modeConn != ConnexionMode.ADMIN) {
