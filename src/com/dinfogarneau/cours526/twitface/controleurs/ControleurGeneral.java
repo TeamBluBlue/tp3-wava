@@ -98,7 +98,7 @@ public class ControleurGeneral extends HttpServlet {
 		// ========================
 		} else if (uri.equals("/deconnexion")) {
 			// Détruire le ConnexionBean va déconneter l'utilisateur
-			request.getSession().setAttribute("beanConn", null);
+			request.getSession().setAttribute("connBean", null);
 			request.setAttribute("msgConfDeconn", "Vous avez bien été déconnecté(e)");
 			
 			vue = "/WEB-INF/vues/index.jsp";
