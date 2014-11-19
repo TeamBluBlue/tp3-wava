@@ -29,5 +29,6 @@
 	</form>
 </div>  <!-- Fin de la division "form-rechercher-amis" -->
 
+<div id="amis-trouves">
+</div>
 <img src="${pageContext.request.contextPath}/images/en-construction.png" id="img-en-construction" alt="Section en construction" />
-<%-- <p>Aucun ami trouvé</p> --%>

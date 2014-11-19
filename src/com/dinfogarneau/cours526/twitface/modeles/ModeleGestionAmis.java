@@ -45,12 +45,12 @@ public class ModeleGestionAmis {
 	private int nbAmisSugg;
 	
 	/**
-	 * Le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
+	 * Acceptation de la demande d'amitié
 	 */
 	private boolean demandeAcceptee;
 
 	/**
-	 * Le nombre d'amis suggérés que le jeu de résultats doit contenir pour les suggestions.
+	 * Le message relié à la demande d'amitié
 	 */
 	private String message;
 
