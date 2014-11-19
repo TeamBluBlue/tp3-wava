@@ -3,17 +3,17 @@
 
 <!-- Menu principal du site Web -->
 <ul>
-	<c:if test="${sessionScope['modeConn'] == 'MEMBRE'}">
+	<c:if test="${sessionScope['connBean'].modeConn == 'MEMBRE'}">
 		<li><a href="${pageContext.request.contextPath}/membre">Accueil - Nouvelles</a></li>
 		<li><a href="${pageContext.request.contextPath}/membre/profil">Profil - Babillard</a></li>
 		<li><a href="${pageContext.request.contextPath}/membre/mes-amis">Amis et demandes d'amitié</a></li>
 		<li><a href="${pageContext.request.contextPath}/membre/sugg-amis">Suggérer des amis</a></li>
 	</c:if>
-	<c:if test="${empty sessionScope['modeConn'] || sessionScope['modeConn'] == 'AUCUN'}">
+	<c:if test="${empty sessionScope['connBean'].modeConn || sessionScope['connBean'].modeConn == 'AUCUN'}">
 		<li><a href="${pageContext.request.contextPath}/">M'inscrire</a></li>
 	</c:if>
 	<c:choose>
-		<c:when test="${sessionScope['modeConn'] == 'ADMIN'}">
+		<c:when test="${sessionScope['connBean'].modeConn == 'ADMIN'}">
 			<li><a href="${pageContext.request.contextPath}/admin">Gestion des publications</a></li>			
 		</c:when>
 		<c:otherwise>

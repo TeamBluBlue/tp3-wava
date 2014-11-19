@@ -136,7 +136,7 @@ public class ControleurMembre extends HttpServlet {
 				// La liste des amis suggérés est conservée dans le modèle.
 				try {
 					mga.suggererAmis(
-							(int) request.getSession().getAttribute("noUtil"),
+							util.getNoUtil(),
 							request.getParameter("indice-prem"),
 							request.getParameter("nb-amis-sugg")
 							);
@@ -189,7 +189,7 @@ public class ControleurMembre extends HttpServlet {
 				try {
 					mga.accepterDemande(
 							request.getParameter("no-ami"),
-							(int) request.getSession().getAttribute("noUtil")
+							util.getNoUtil()
 							);
 				} catch (NamingException | SQLException e) {
 					throw new ServletException(e);
