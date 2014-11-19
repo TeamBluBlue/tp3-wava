@@ -68,7 +68,7 @@ public class ControleurMembre extends HttpServlet {
 		ConnexionBean util = (ConnexionBean) request.getSession().getAttribute("connBean");
 
 		// Contrôle d'accès à la section pour les clients.
-		if (util.getModeConn() == null || util.getModeConn() != ConnexionMode.MEMBRE) {
+		if (util.getModeConn() != ConnexionMode.MEMBRE) {
 			// Non connecté en tant que membre; on retourne une code d'erreur
 			// HTTP 401 qui sera intercepté par la page d'erreur "erreur-401.jsp".
 			response.sendError(401);
