@@ -11,10 +11,10 @@
 
 	<div id="form-connexion">
 		<!-- Formulaire de connexion -->
-		<form method="post" action="/connexion">
+		<form method="post" action="${pageContext.request.contextPath}/connexion">
 			<p>
 				<label for="nom-util">Nom d'utilisateur : </label>
-				<input type="text" name="nom-util" id="nom-util" />
+				<input type="text" name="nom-util" id="nom-util" value="${fn:trim(param['nom-util'])}" />
 			</p>
 			<p>
 				<label for="mot-passe">Mot de passe : </label>
@@ -26,7 +26,9 @@
 			<input type="hidden" name="source" value="rech-amis" />
 
 			<%-- Affichage du message d'erreur, si nécessaire --%>
-			<p id="msg-err-conn">MESSAGE D'ERREUR, SI NÉCESSAIRE SEULEMENT</p>
+			<c:if test="${not empty requestScope.msgErrConn}">
+				<p id="msg-err-conn">${requestScope.msgErrConn}</p>
+			</c:if>
 		</form>
 	</div>  <!-- Fin de la division "form-connexion" -->
 
