@@ -7,13 +7,7 @@
 <c:choose>
 	<c:when test="${requestScope.modAcceptDemAmi != null}">
 		<%--Définition de l'id du message à afficher (confirmation ou erreur) --%>
-		<p id="msg-
-			<c:choose><c:when test="${requestScope.modAcceptDemAmi.demandeAcceptee}">
-				conf
-			</c:when><c:otherwise>
-				err
-			</c:otherwise></c:choose>
-		-accept-dem-ami">
+		<p id="msg-<c:choose><c:when test="${requestScope.modAcceptDemAmi.demandeAcceptee}">conf</c:when><c:otherwise>err</c:otherwise></c:choose>-accept-dem-ami">
 			${requestScope.modAcceptDemAmi.message}
 		</p>
 	</c:when>
