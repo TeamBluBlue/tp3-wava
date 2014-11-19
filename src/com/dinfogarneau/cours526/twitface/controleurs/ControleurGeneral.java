@@ -92,7 +92,17 @@ public class ControleurGeneral extends HttpServlet {
 			vue = "/WEB-INF/vues/gabarit-vues.jsp";
 			vueContenu = "/WEB-INF/vues/general/rech-amis.jsp";
 			vueSousTitre = "Rechercher des amis";
-
+		
+			
+		// Déconnexion de l'utilisateur
+		// ========================
+		} else if (uri.equals("/deconnexion")) {
+			// Détruire le ConnexionBean va déconneter l'utilisateur
+			request.getSession().setAttribute("beanConn", null);
+			request.setAttribute("msgConfDeconn", "Vous avez bien été déconnecté(e)");
+			
+			vue = "/WEB-INF/vues/index.jsp";
+			
 		// Méthode HTTP non permise
 		// ========================
 		} else if (uri.equals("/connexion")) {
