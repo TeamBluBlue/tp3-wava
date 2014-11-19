@@ -1,25 +1,21 @@
 package com.dinfogarneau.cours526.twitface.controleurs;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.dinfogarneau.cours526.twitface.classes.ConnexionMode;
-import com.dinfogarneau.cours526.twitface.modeles.ModeleGestionAmis;
-import com.dinfogarneau.cours526.twitface.beans.ConnexionBean;
 
 /**
- * Contrôleur pour les ressources des membres.
+ * Contrôleur pour les ressources des administrateurs.
  * @author Stéphane Lapointe
  * @author Éric Bonin
  * @author Charles-André Beaudry
  */
-public class ControleurMembre extends HttpServlet {
+public class ControleurAdmin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	// Attributs
@@ -64,11 +60,12 @@ public class ControleurMembre extends HttpServlet {
 		response.setHeader("Pragma", "no-cache");  // HTTP 1.0.
 		response.setDateHeader("Expires", 0);  // Proxies.
 		
-		// Récupération du ConnexionBean dans la session de l'utilisateur
-		ConnexionBean util = (ConnexionBean) request.getSession().getAttribute("connBean");
+		// Récupération du mode de connexion dans la session utilisateur.
+		// *** À MODIFIER (UTILISATION DU BEAN DE CONNEXION) ***
+		ConnexionMode modeConn = (ConnexionMode) request.getSession().getAttribute("modeConn");
 
 		// Contrôle d'accès à la section pour les clients.
-		if (util.getModeConn() == null || util.getModeConn() != ConnexionMode.MEMBRE) {
+		if (modeConn == null || modeConn != ConnexionMode.ADMIN) {
 			// Non connecté en tant que membre; on retourne une code d'erreur
 			// HTTP 401 qui sera intercepté par la page d'erreur "erreur-401.jsp".
 			response.sendError(401);
@@ -80,13 +77,8 @@ public class ControleurMembre extends HttpServlet {
 
 	/**
 	 * Permet de gérer les ressources GET suivantes :
-	 * 		"/membre/" ou "/membre"		:	Accueil pour les membres
-	 *		"/membre/profil"			:	Profil - Babillard
-	 *		"/membre/mes-amis"			:	Amis et mes demandes d'amitié
-	 *		"/membre/sugg-ami"			:	Suggérer des amis
-	 *		"/membre/accept-dem-ami"	:	Accepter une demande d'amitié
-	 *		"/membre/supp-ami"			:	Supprimer un ami
-	 *		"/membre/dem-ami"			:	Effectuer une demande d'amitié
+	 * 		"/admin/" ou "/admin"		:	Accueil pour les administrateurs
+	 *		"/admin/supp-pub"			:	Supprimer une publication
 	 * 
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -98,105 +90,25 @@ public class ControleurMembre extends HttpServlet {
 			// ================================
 			// Gestion de la ressource demandée
 			// ================================
-			
-			ConnexionBean util = (ConnexionBean) request.getSession().getAttribute("connBean");
-			
-			// Accueil - Membres
+
+			// Accueil - Admins
 			// =================
-			if (uri.equals("/membre/") || uri.equals("/membre")) {
+			if (uri.equals("/admin/") || uri.equals("/admin")) {
 				// Paramètres pour la vue créée à partir du gabarit.
 				vue = "/WEB-INF/vues/gabarit-vues.jsp";
-				vueContenu = "/WEB-INF/vues/membre/accueil-membre.jsp";
+				vueContenu = "/WEB-INF/vues/admin/accueil-admin.jsp";
+				vueSousTitre = "Gestion des publications";
+
+			// Suppression d'une publication
+			// =================	
+			} else if (uri.equals("/admin/supp-pub")) {
+				// Paramètres pour la vue créée à partir du gabarit.
 				
-				vueSousTitre = "Page personnelle de " + util.getNom() + " (" + util.getNomUtil() + ")";
-
-			// Profil - Babillard
-			// ==================
-			} else if (uri.equals("/membre/profil")) {
-				// Paramètres pour la vue créée à partir du gabarit.
-				vue = "/WEB-INF/vues/gabarit-vues.jsp";
-				vueContenu = "/WEB-INF/vues/membre/profil.jsp";
-				vueSousTitre = "Mon profil et mon babillard";
-				
-			// Voir les amis
-			// =================
-			} else if (uri.equals("/membre/mes-amis")) {
-				// Paramètres pour la vue créée à partir du gabarit.
-				vue = "/WEB-INF/vues/gabarit-vues.jsp";
-				vueContenu = "/WEB-INF/vues/membre/mes-amis.jsp";
-				vueSousTitre = "Amis et demandes d'amitié";
-				
-			// Suggérer des amis
-			// =================
-			} else if (uri.equals("/membre/sugg-amis")) {
-
-				// Création du modèle pour suggérer des amis.
-				ModeleGestionAmis mga = new ModeleGestionAmis();
-				// Appel de la méthode du modèle qui suggère des amis.
-				// La liste des amis suggérés est conservée dans le modèle.
-				try {
-					mga.suggererAmis(
-							(int) request.getSession().getAttribute("noUtil"),
-							request.getParameter("indice-prem"),
-							request.getParameter("nb-amis-sugg")
-							);
-				} catch (NamingException | SQLException e) {
-					throw new ServletException(e);
-				}
-
-				// Conservation du modèle dans un attribut de la requête.
-				request.setAttribute("modSuggAmis", mga);
-
-				// Paramètres pour la vue créée à partir du gabarit.
-				vue = "/WEB-INF/vues/gabarit-vues.jsp";
-				vueContenu = "/WEB-INF/vues/membre/sugg-amis.jsp";
-				vueSousTitre = "Suggestions d'amis";
-
-
-			// Supprimer un ami
-			// ================
-			// *** NOTE : Devrait utiliser la méthode POST ***
-			} else if (uri.equals("/membre/supp-ami")) {
-
 				// *** En construction ***
 				vue = "/WEB-INF/vues/gabarit-vues.jsp";
 				vueContenu = "/WEB-INF/vues/en-construction.jsp";
-				vueSousTitre = "Suppression d'un ami";
+				vueSousTitre = "En construction";
 
-			// Effectuer une demande d'amitié
-			// ==============================
-			// *** NOTE : Devrait utiliser la méthode POST ***
-			} else if (uri.equals("/membre/dem-ami")) {
-
-				// *** En construction ***
-				vue = "/WEB-INF/vues/gabarit-vues.jsp";
-				vueContenu = "/WEB-INF/vues/en-construction.jsp";
-				vueSousTitre = "Demande d'amitié";
-				
-			// Accepter une demande d'amitié
-			// =================
-			} else if (uri.equals("/membre/accept-dem-ami")) {
-				// Paramètres pour la vue créée à partir du gabarit.
-				vue = "/WEB-INF/vues/gabarit-vues.jsp";
-				vueContenu = "/WEB-INF/vues/membre/mes-amis.jsp";
-				vueSousTitre = "Amis et demandes d'amitié";
-
-				
-				// Création du modèle pour suggérer des amis.
-				ModeleGestionAmis mga = new ModeleGestionAmis();
-
-				// Appel de la méthode du modèle qui accepte une demande.
-				try {
-					mga.accepterDemande(
-							request.getParameter("no-ami"),
-							(int) request.getSession().getAttribute("noUtil")
-							);
-				} catch (NamingException | SQLException e) {
-					throw new ServletException(e);
-				}
-				
-				// Conservation du modèle dans un attribut de la requête.
-				request.setAttribute("modAcceptDemAmi", mga);
 				
 			// Ressource non disponible
 			// ========================
@@ -228,10 +140,8 @@ public class ControleurMembre extends HttpServlet {
 	
 			// Méthode HTTP non permise
 			// ========================
-			if (uri.equals("/membre/") || uri.equals("/membre")
-					|| uri.equals("/membre/profil")	|| uri.equals("/membre/sugg-amis")
-					|| uri.equals("/membre/supp-ami") || uri.equals("/membre/dem-ami")
-					|| uri.equals("/membre/accept-dem-ami") || uri.equals("/membre/mes-ami")) {
+			if (uri.equals("/admin/") || uri.equals("/admin")
+					|| uri.equals("/admin/supp-pub")) {
 				response.sendError(405);
 				
 			// Ressource non disponible
